@@ -26,7 +26,7 @@ The moves are then ordered by this score and the one with the highest score is p
 
 There's also a "winning" clause such that if the advantage becomes quite high for the bot (provided mistakes by its human opponent despite their initial advantage), then it will begin to hold on to this advantage. In this case, the human opponent will surely lose.
 
-But, in theory, it is possible to beat this bot provided that you don't make too many mistakes. You must exploit its disrespectful choices!
+But, in theory, it is possible to beat this bot, if you can exploit the disadvantage it willingly suffers in order to disrespect you. Kill it quickly or it will kill you slowly!
 
 ## Running locally
 
@@ -35,7 +35,7 @@ But, in theory, it is possible to beat this bot provided that you don't make too
 - TypeScript
 - pnpm
 
-## Deploying
+### Deploying
 
 - `git clone https://github.com/wintrcat/triggerfish.git .`
 - `pnpm install`
