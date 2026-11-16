@@ -37,7 +37,7 @@ async function playBotMove({
 
     const topMove = annoyingMoves[0]?.move || getTopMove(lines);
     if (!topMove) return await bot.sendChatMessage(
-        gameId, "error :( please tell wintrcat"
+        gameId, "no moves available. did you win?"
     );
 
     await bot.playMove(gameId, makeUci(topMove));
@@ -57,7 +57,7 @@ async function listenBoardStates(gameId: string) {
 
             await playBotMove({
                 gameId, initialPosition, colour,
-                ucis: event.moves.split(" ")
+                ucis: event.moves.split(" ").filter(m => m)
             });
         }
 
@@ -67,7 +67,10 @@ async function listenBoardStates(gameId: string) {
 
             colour = event.white.id == username ? "white" : "black";
 
-            await playBotMove({ gameId, initialPosition, colour });
+            await playBotMove({
+                gameId, initialPosition, colour,
+                ucis: event.state.moves.split(" ").filter(m => m)
+            });
         }
     }
 }

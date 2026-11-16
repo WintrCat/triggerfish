@@ -1,4 +1,5 @@
 import { components } from "@lichess-org/types";
+import { readNdjsonStream } from "./utils";
 
 type BotEvent =
     | components["schemas"]["GameStartEvent"]
@@ -15,8 +16,6 @@ type BoardStateEvent =
 
 type User = components["schemas"]["UserExtended"];
 
-const decoder = new TextDecoder("utf-8");
-
 // Stream of challenge events
 export async function* streamEvents() {
     const eventStreamResponse = await fetch("https://lichess.org/api/stream/event", {
@@ -26,19 +25,11 @@ export async function* streamEvents() {
         }
     });
 
-    const eventStream = eventStreamResponse.body;
+    const eventStream = eventStreamResponse.body
+        ?.pipeThrough(new TextDecoderStream());
     if (!eventStream) return;
 
-    for await (const event of eventStream) {
-        const eventText = decoder.decode(event);
-
-        try {
-            yield JSON.parse(eventText) as BotEvent;
-        } catch {
-            if (eventText.trim())
-                console.error(`unable to parse: ${eventText}`);
-        }
-    }
+    yield* readNdjsonStream<BotEvent>(eventStream);
 }
 
 // Stream of board updates / move events
@@ -48,19 +39,11 @@ export async function* streamBoardState(gameId: string) {
         { headers: { Authorization: `Bearer ${process.env.BOT_TOKEN}` } }
     );
 
-    const stateStream = stateStreamResponse.body;
+    const stateStream = stateStreamResponse.body
+        ?.pipeThrough(new TextDecoderStream());
     if (!stateStream) return;
 
-    for await (const event of stateStream) {
-        const eventText = decoder.decode(event);
-
-        try {
-            yield JSON.parse(eventText) as BoardStateEvent;
-        } catch {
-            if (eventText.trim())
-                console.error(`unable to parse: ${eventText}`);
-        }
-    }
+    yield* readNdjsonStream<BoardStateEvent>(stateStream);
 }
 
 // Play a move in a game

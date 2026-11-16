@@ -23,3 +23,24 @@ export function* collectCtxMoves(position: Chess, uciMoves: string[]) {
         position.play(move);
     }
 }
+
+/** Parse an NDJSON stream. Ugh. */
+export async function* readNdjsonStream<T extends object>(
+    stream: ReadableStream<string>
+): AsyncGenerator<T> {
+    let buffer = "";
+
+    for await (const chunk of stream) {
+        buffer += chunk;
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+
+        for (const line of lines) {
+            try {
+                yield JSON.parse(line) as T;
+            } catch {
+                if (line.trim()) console.error(`unable to parse: ${line}`);
+            }
+        }
+    }
+}

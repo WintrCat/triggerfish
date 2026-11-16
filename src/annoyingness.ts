@@ -12,13 +12,13 @@ import { contextualizeMove, ContextualMove } from "wintrchess/types";
 import { shuffle, sumBy } from "es-toolkit";
 
 /** The maximum disadvantage the bot is willing to sustain normally. */
-const DEFAULT_MAX_DISV = getWinPercent({ type: "cp", value: -500 });
+const DEFAULT_MAX_DISV = getWinPercent({ type: "cp", value: -450 });
 
 /** The maximum Win% loss the bot will sustain per move. */
 const DEFAULT_MAX_WPL = 0.215;
 
 /** The Win% after which the bot tries to remain winning. */
-const WIN_THRESHOLD = getWinPercent({ type: "cp", value: 600 });
+const WIN_THRESHOLD = getWinPercent({ type: "cp", value: 400 });
 
 
 /** If you're configuring the bot, DON'T EDIT ANYTHING BELOW THIS */
