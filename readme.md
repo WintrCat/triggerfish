@@ -56,6 +56,8 @@ ENGINE_DEPTH=14
 ```
 ###### Note that right now only one person can play the bot at a time.
 
+It is also possible to configure the maximum disadvantage the bot is willing to suffer, and at what *ad*vantage it will remain trying to win. The constants are at the top of `src/annoyingness.ts`. You will have to `pnpm build` to recompile if you change these.
+
 You can now start the bot with `pnpm start`.
 Challenge the bot to a casual, unlimited time game and choose any colour you want. From my experience, it is more fun to play with Black.
 

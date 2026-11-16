@@ -20,6 +20,8 @@ const DEFAULT_MAX_WPL = 0.215;
 /** The Win% after which the bot tries to remain winning. */
 const WIN_THRESHOLD = getWinPercent({ type: "cp", value: 600 });
 
+
+/** If you're configuring the bot, DON'T EDIT ANYTHING BELOW THIS */
 const FIRST_MOVES = ["f3", "g4", "h4", "a4", "Na3", "Nh3"]
     .map(san => contextualizeMove(
         Chess.default(),
